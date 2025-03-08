@@ -1,14 +1,23 @@
 # django-chatbot
 A simple ChatGpt ChatBot using django for backend
 
+## Prerequisite
+Your system should have installed ```Python version 3.12``` and ```virtualenv```.
+
 ## How to install and run the code
-1. Create a virtual environment by running below code.
+1. Create a virtual environment to isolate the dependencies by running below commands.
 ```
-# Mac
-python3 -m venv .venv                     
+# macOS/Linux
+# You may need to run `sudo apt-get install python3-venv` first on Debian-based OSs
+python3 -m venv .venv
 source .venv/bin/activate
+
+# Windows
+# You can also use `py -3 -m venv .venv`
+python -m venv .venv
+.\venv\Scripts\activate
 ```
-2. Install the dependency by running below code from the root directory
+2. Install the dependency by running below commands from the root directory
 ```
 python -m pip install --upgrade pip
 pip install -r requirements.txt
