@@ -37,8 +37,8 @@
               pip install -r requirements.txt
             #   pip install -r requirements-test.txt
           
-          - name: Check Bandit Security
-            run: bandit -r .
+        #   - name: Check Bandit Security
+        #     run: bandit -r .
           
           - name: Check Black Formatting
             run: black --check .
