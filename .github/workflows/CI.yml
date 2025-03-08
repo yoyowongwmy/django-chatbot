@@ -38,13 +38,13 @@
             #   pip install -r requirements-test.txt
           
           - name: Check Bandit Security
-            run: bandit -r backend
+            run: bandit -r .
           
           - name: Check Black Formatting
-            run: black --check backend
+            run: black --check .
           
           - name: Check Ruff Linting
-            run: ruff --version && ruff check --output-format=github backend
+            run: ruff --version && ruff check --output-format=github .
           
           # - name: Uninstall Test Requirements And Dependencies
           #   run: pip uninstall -y -r freeze-test.txt
