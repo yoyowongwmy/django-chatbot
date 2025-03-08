@@ -1,0 +1,50 @@
+---
+    name: Continuous Integration
+    
+    on:
+      push:
+        branches: [backend/*, main]
+      pull_request:
+    
+    jobs:
+      tags:
+        permissions: write-all
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Code
+            uses: actions/checkout@v3
+            with:
+              ref: ${{ github.head_ref }}
+    
+      test:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Code
+            uses: actions/checkout@v3
+          
+          - name: Set Up Python
+            uses: actions/setup-python@v5
+            with:
+              python-version-file: pyproject.toml
+              cache: pip
+              cache-dependency-path: requirements*.txt
+          
+          - name: Install Dependencies
+            run: |
+              python -m pip install --upgrade pip
+              pip install -r requirements.txt
+            #   pip install -r requirements-test.txt
+          
+          - name: Check Bandit Security
+            run: bandit -r backend
+          
+          - name: Check Black Formatting
+            run: black --check backend
+          
+          - name: Check Ruff Linting
+            run: ruff --version && ruff check --output-format=github backend
+          
+          # - name: Uninstall Test Requirements And Dependencies
+          #   run: pip uninstall -y -r freeze-test.txt
+    
+          
