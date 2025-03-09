@@ -78,14 +78,12 @@
               <b>AI Chatbot</b>
             </div>
             <div class="message-content">
-              Hi {{user.username}}, I am your AI Chatbot, you can ask me anything.
+              Hi, I am your AI Chatbot, you can ask me anything.
             </div>
           </div>
         </li>
 
         {% for chat in chats %}
-          {% if chat.user == request.user %}
-
             <li class="message sent">
           <div class="message-text">
             <div class="message-sender">
@@ -103,12 +101,10 @@
               <b>AI Chatbot</b>
             </div>
             <div class="message-content">
-              {{chat.response}}
+              {{chat.response.content.text}}
             </div>
           </div>
         </li>
-
-          {% endif %}
         {% endfor %}
         
       </ul>
@@ -129,7 +125,37 @@
   </form>
 </div>
 
-<script>
+<script> 
+  let sessionId;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Check if session ID already exists in sessionStorage
+    sessionId = sessionStorage.getItem("session_id");
+
+    // If session ID doesn't exist, create a new one
+    if (!sessionId) {
+      sessionId = "session-" + Math.random().toString(36).substr(2, 9); // Random string generation
+      sessionStorage.setItem("session_id", sessionId);  // Store in sessionStorage for persistence across reloads
+    }
+
+    console.log("Session ID:", sessionId);
+
+    // Send GET request with session ID to load the conversation
+    fetch('', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Session-Id': sessionId  // Send session ID in the header
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Handle the response to display the conversation history if needed
+      console.log(data.conversation);
+    })
+    .catch(error => console.error('Error loading conversation:', error));
+  });
+
   const messagesList = document.querySelector('.messages-list');
   const messageForm = document.querySelector('.message-form');
   const messageInput = document.querySelector('.message-input');
@@ -159,7 +185,10 @@
 
     fetch('', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Session-Id': sessionId  // Send session ID in the header
+      },
       body: new URLSearchParams({
         'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
         'message': message
@@ -183,6 +212,6 @@
         messagesList.appendChild(messageItem);
       });
   });
-
 </script>
+
 {% endblock %}

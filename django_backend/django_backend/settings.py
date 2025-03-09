@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "chatbot",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -49,7 +50,26 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",  # Allow your frontend to access the API (change to your frontend URL)
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'session-id',  # Allow the custom header 'Session-Id'
+    'x-requested-with',
+    'authorization',
+]
+CORS_ALLOW_CREDENTIALS = True
+
+
+# SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Store sessions in DB
+# SESSION_COOKIE_AGE = 86400  # Session lasts for 1 day (optional)
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # End session when browser closes (optional)
+
 
 ROOT_URLCONF = "django_backend.urls"
 
