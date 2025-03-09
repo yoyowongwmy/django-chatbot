@@ -61,11 +61,12 @@ def chatbot(request):
         # get response from open ai and add it to Chat Session
         response = ask_openai(messages)
         response_message = format_message(role="assistant",text=response)
+
         chat_session.conversation.append(response_message)
         
         # Persist the updated session data
         chat_session.save()
-                
+
         return JsonResponse({"message": message, "response": response})
     return render(request, "chatbot.html", {"chats": chat_session.conversation})
 
