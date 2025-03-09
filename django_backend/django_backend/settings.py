@@ -51,6 +51,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Store sessions in DB
+SESSION_COOKIE_AGE = 86400  # Session lasts for 1 day (optional)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # End session when browser closes (optional)
+
+
 ROOT_URLCONF = "django_backend.urls"
 
 TEMPLATES = [
