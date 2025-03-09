@@ -32,6 +32,6 @@ def chatbot(request):
         response = ask_openai(history_messages)
         response_message = format_message(role="assistant",text=response)
         history_messages.append(response_message)
-        print(history_messages)
+
         return JsonResponse({"message": message, "response": response})
     return render(request, "chatbot.html")
