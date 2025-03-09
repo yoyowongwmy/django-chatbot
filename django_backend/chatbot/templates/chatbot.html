@@ -125,16 +125,6 @@
   </form>
 </div>
 
-{% comment %} document.addEventListener("DOMContentLoaded", function () {
-  // Check if session ID is already stored in sessionStorage
-  sessionId = sessionStorage.getItem("session_id");
-
-  // If not, create a new one
-  if (!sessionId) {
-    sessionId = "session-" + Math.random().toString(36).substr(2, 9);
-    sessionStorage.setItem("session_id", sessionId);
-  }
-}); {% endcomment %}
 <script> 
   let sessionId;
 
@@ -144,9 +134,26 @@
 
     // If session ID doesn't exist, create a new one
     if (!sessionId) {
-      sessionId = "session-" + Math.random().toString(36).substr(2, 9);
-      sessionStorage.setItem("session_id", sessionId);
+      sessionId = "session-" + Math.random().toString(36).substr(2, 9); // Random string generation
+      sessionStorage.setItem("session_id", sessionId);  // Store in sessionStorage for persistence across reloads
     }
+
+    console.log("Session ID:", sessionId);
+
+    // Send GET request with session ID to load the conversation
+    fetch('', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Session-Id': sessionId  // Send session ID in the header
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Handle the response to display the conversation history if needed
+      console.log(data.conversation);
+    })
+    .catch(error => console.error('Error loading conversation:', error));
   });
 
   const messagesList = document.querySelector('.messages-list');
@@ -180,7 +187,7 @@
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Session-Id': localStorage.getItem("session_id")  // Send session ID in the header
+        'Session-Id': sessionId  // Send session ID in the header
       },
       body: new URLSearchParams({
         'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -205,6 +212,6 @@
         messagesList.appendChild(messageItem);
       });
   });
-
 </script>
+
 {% endblock %}
