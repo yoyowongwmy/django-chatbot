@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import os
 from openai import OpenAI
 from .models import ChatSession
-import uuid
 
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
