@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+
 from dotenv import load_dotenv
 import os
+
 from openai import OpenAI
+
 from .models import ChatSession
 
-load_dotenv()
+load_dotenv(override=True)
 openai_api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_api_key)
 
