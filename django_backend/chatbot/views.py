@@ -4,19 +4,11 @@ from dotenv import load_dotenv
 import os
 from openai import OpenAI
 from .models import ChatSession
+import uuid
 
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_api_key)
-
-
-my_assistant = client.beta.assistants.create(
-    instructions="You are a personal programming tutor. When asked a question, write and run Python code to answer the question.",
-    name="Programming Tutor",
-    tools=[{"type": "code_interpreter"}],
-    model="gpt-3.5-turbo",
-)
-
 
 
 def format_message(role:str, text:str) -> dict:
@@ -37,7 +29,7 @@ def ask_openai(messages):
         messages=messages,
         temperature=0.7,
     )
-    answer = response.choices[0].message.content # retrive only the openai message response
+    answer = response.choices[0].message.content # retrieve only the openai message response
     return answer
 
 
@@ -53,19 +45,12 @@ def chatbot(request):
         JsonResponse: A JSON response containing the user message and the assistant's response (for POST requests).
         HttpResponse: An HTML response rendering the chatbot page (for GET requests).
     '''
-
-    if request.method == "GET":
-        session_id = request.headers.get("Session-Id", "") 
-        chat_session, created = ChatSession.objects.get_or_create(session_id=session_id) # persist Chat Session in db with the session ID
+    session_id = request.headers.get("Session-Id", "") 
+    chat_session, created = ChatSession.objects.get_or_create(session_id=session_id) # persist Chat Session in db with the session ID
         
 
     if request.method == "POST":
         text = request.POST.get("message")
-        session_id = request.headers.get("Session-Id", "") 
-        if not session_id:
-            return JsonResponse({"error": "Session ID missing"}, status=400)
-        
-        chat_session, created = ChatSession.objects.get_or_create(session_id=session_id) # get the Chat Session in db with the session ID
         
         # Format user message and add to Chat Session
         message = format_message(role="user",text=text)
