@@ -22,9 +22,12 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-3. Replace the OPENAI_API_KEY value in ```django_backend/.env``` file with your own OpenAI API key.  
+3. Replace the ```OPENAI_API_KEY``` value in ```.env``` file in the root directory with your own OpenAI API key.  
 4. Run the setup.sh from root directory to run the django app
 ```./setup.sh```
 5. Open http://127.0.0.1:8000/ to test the application
 
-
+## Future Enhancement
+1. use Django + React to separate the concerns of frontend and backend
+2. Implement Login feature to store conversation based on user id, so that user can track their own conversations
+3. Implement Thread with openai for each user, so that they can manage multiple conversations
