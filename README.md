@@ -1,9 +1,10 @@
 # django-chatbot
-A simple ChatGPT-powered chatbot built with Django using the MVT architecture.  
+A simple ChatGPT-powered chatbot built with Django and React, using rest_framework for the backend. 
 - Engage in multiple conversations simultaneously, each isolated by tab.  
 - Your conversation context remains intact as long as the tab stays open, even after refreshing.  
 - Once a tab is closed, the conversation is archived.  
 - All conversation history is securely stored in the database.
+
 
 ## Prerequisite
 Your system should have installed ```Python version 3.12``` and ```virtualenv```.
@@ -26,14 +27,11 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-3. Replace the ```OPENAI_API_KEY``` value in ```.env``` file in the root directory with your own OpenAI API key.  
-4. Run the setup.sh from root directory to run the django app
-=======
 3. Run migrate to create database
 ```
 python django_backend/manage.py migrate
 ```
-4. Replace the OPENAI_API_KEY value in ```.env``` file in the root directory with your own OpenAI API key.  
+4. Replace the ```OPENAI_API_KEY``` value in ```.env``` file in the root directory with your own OpenAI API key.  
 5. Run the Django app from the django_backend directory
 ```
 # run command from root directory
