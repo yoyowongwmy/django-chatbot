@@ -65,15 +65,15 @@ def chatbot(request):
         messages = chat_session.conversation + [message]
 
         # get response from open ai and add it to Chat Session
-        response = ask_openai(messages)
-        response_message = format_message(role="assistant", text=response)
+        response_text = ask_openai(messages)
+        response_message = format_message(role="assistant", text=response_text)
 
         chat_session.conversation.append(response_message)
 
         # Persist the updated session data
         chat_session.save()
 
-        return JsonResponse({"message": message, "response": response})
+        return JsonResponse({"message": message, "response": response_text})
 
         # Detect AJAX request
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
