@@ -1,16 +1,16 @@
 from rest_framework import serializers
-from .models import *
+from .models import ChatSession
+
 
 class ChatSessionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ChatSession
-        fields = ['session_id', 'created', 'conversation']
-        
+        fields = ["session_id", "created", "conversation"]
+
     def update(self, instance, validated_data):
         """
         Update and return an existing `Snippet` instance, given the validated data.
         """
-        instance.conversation.append(validated_data.get('message', [])) 
+        instance.conversation.append(validated_data.get("message", []))
         instance.save()
         return instance
-        
