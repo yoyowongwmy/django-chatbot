@@ -26,9 +26,6 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-3. Replace the ```OPENAI_API_KEY``` value in ```.env``` file in the root directory with your own OpenAI API key.  
-4. Run the setup.sh from root directory to run the django app
-=======
 3. Run migrate to create database
 ```
 python django_backend/manage.py migrate
