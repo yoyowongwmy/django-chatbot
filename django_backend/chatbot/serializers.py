@@ -9,7 +9,7 @@ class ChatSessionSerializer(serializers.HyperlinkedModelSerializer):
 
     def update(self, instance, validated_data):
         """
-        Update and return an existing `Snippet` instance, given the validated data.
+        Update and return an existing `ChatSession` instance, given the validated data.
         """
         instance.conversation.append(validated_data.get("message", []))
         instance.save()

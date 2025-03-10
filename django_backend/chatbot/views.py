@@ -42,18 +42,22 @@ def chat_session(request, pk):
     """
     Create, update or delete a chat session.
     """
-
     chatSession, created = ChatSession.objects.update_or_create(session_id=pk)
 
     if request.method == "POST":
+        # create and add user message to chat session
         message = format_message(role="user", text=request.data.get("message"))
         chatSession.conversation.append(message)
-
+        
+        # combine the conversation context and ask open ai
         messages = chatSession.conversation + [message]
         answer = ask_openai(messages)
+        
+        # create and add system response to chat session
         response = format_message(role="assistant", text=answer)
         chatSession.conversation.append(response)
-
+        
+        # persist the change to chat session
         chatSession.save()
 
         serializer = ChatSessionSerializer(chatSession)
