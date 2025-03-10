@@ -3,215 +3,189 @@
 {% block styles %}
 <style>
     body, html {
-      height: 100%;
+        height: 100%;
     }
 
     .messages-box {
-      flex: 1;
-      overflow-y: auto;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .messages-list {
-      padding-left: 0;
+        padding-left: 0;
     }
 
     .message {
-      margin-bottom: 15px;
-      list-style: none;
+        margin-bottom: 15px;
+        list-style: none;
     }
 
     .message-text {
-      padding: 10px;
-      border-radius: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        max-width: 70%;
     }
 
     .sent {
-      background-color: #dcf8c6;
-      align-self: flex-end;
+        background-color: #dcf8c6;
+        align-self: flex-end;
     }
 
     .received {
-      background-color: #f1f0f0;
-      align-self: flex-start;
+        background-color: #f1f0f0;
+        align-self: flex-start;
     }
 
     .message-form {
-      display: flex;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 10px;
-      background-color: #f8f9fa;
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        background-color: #f8f9fa;
     }
 
     .message-input {
-      flex: 1;
-      border-radius: 0;
-      border-right: none;
+        flex: 1;
+        border-radius: 0;
+        border-right: none;
     }
 
     .btn-send {
-      border-radius: 0;
+        border-radius: 0;
     }
 
     .chat-container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
-  </style>
+</style>
 {% endblock %}
-
 
 {% block content %}
 <div class="chat-container">
-  <div class="card flex-grow-1">
-    <div class="card-header bg-primary text-white">Chat</div>
-    <div class="card-body messages-box">
-      
-      <ul class="list-unstyled messages-list">
-        
-        <li class="message received">
-          <div class="message-text">
-            <div class="message-sender">
-              <b>AI Chatbot</b>
-            </div>
-            <div class="message-content">
-              Hi, I am your AI Chatbot, you can ask me anything.
-            </div>
-          </div>
-        </li>
-
-        {% for chat in chats %}
-            <li class="message sent">
-          <div class="message-text">
-            <div class="message-sender">
-              <b>You</b>
-            </div>
-            <div class="message-content">
-              {{chat.message}}
-            </div>
-          </div>
-        </li>
-
-        <li class="message received">
-          <div class="message-text">
-            <div class="message-sender">
-              <b>AI Chatbot</b>
-            </div>
-            <div class="message-content">
-              {{chat.response.content.text}}
-            </div>
-          </div>
-        </li>
-        {% endfor %}
-        
-      </ul>
-      
+    <div class="card flex-grow-1">
+        <div class="card-header bg-primary text-white">Chat</div>
+        <div class="card-body messages-box">
+            <ul class="list-unstyled messages-list">
+                <li class="message received">
+                    <div class="message-text">
+                        <div class="message-sender">
+                          <b>AI Chatbot</b>
+                        </div>
+                        <div class="message-content">
+                          Hi, I am your AI Chatbot. You can ask me anything.
+                        </div>
+                    </div>
+                </li>
+                {% for chat in chats %}
+                  {% if chat.role == "user" %}
+                      <li class="message sent">
+                  {% else %}
+                      <li class="message received">
+                  {% endif %}
+                        <div class="message-text">
+                            <div class="message-sender">
+                              <b>
+                                {% if chat.role == "user" %}
+                                You
+                                {% else %}
+                                AI Chatbot
+                                {% endif %}
+                              </b>
+                            </div>
+                            <div class="message-content">
+                              {{ chat.response.content.text }}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
     </div>
     <br><br>
     <br><br>
     <br><br>
   </div>
-  <form class="message-form">
-    {%csrf_token%}
-    <div class="input-group">
-      <input type="text" class="form-control message-input" placeholder="Type your message...">
-      <div class="input-group-append">
-        <button type="submit" class="btn btn-primary btn-send">Send</button>
-      </div>
-    </div>
-  </form>
+    <form class="message-form">
+        {%csrf_token%}
+        <div class="input-group">
+            <input type="text" class="form-control message-input" placeholder="Type your message...">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-send">Send</button>
+            </div>
+        </div>
+    </form>
 </div>
 
-<script> 
+<script>
   let sessionId;
-
-  document.addEventListener("DOMContentLoaded", function () {
-    // Check if session ID already exists in sessionStorage
-    sessionId = sessionStorage.getItem("session_id");
-
-    // If session ID doesn't exist, create a new one
-    if (!sessionId) {
-      sessionId = "session-" + Math.random().toString(36).substr(2, 9); // Random string generation
-      sessionStorage.setItem("session_id", sessionId);  // Store in sessionStorage for persistence across reloads
-    }
-
-    console.log("Session ID:", sessionId);
-
-    // Send GET request with session ID to load the conversation
-    fetch('', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Session-Id': sessionId  // Send session ID in the header
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Handle the response to display the conversation history if needed
-      console.log(data.conversation);
-    })
-    .catch(error => console.error('Error loading conversation:', error));
-  });
-
   const messagesList = document.querySelector('.messages-list');
   const messageForm = document.querySelector('.message-form');
   const messageInput = document.querySelector('.message-input');
+  
+  function appendMessage(role, text) {
+      const messageItem = document.createElement('li');
+      messageItem.classList.add('message', role === "user" ? 'sent' : 'received');
+      messageItem.innerHTML = `
+          <div class="message-text">
+              <div class="message-sender"><b>${role === "user" ? "You" : "AI Chatbot"}</b></div>
+              <div class="message-content">${text}</div>
+          </div>`;
+      messagesList.appendChild(messageItem);
+  }
 
-  messageForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+  document.addEventListener("DOMContentLoaded", function () {
 
-    const message = messageInput.value.trim();
-    if (message.length === 0) {
-      return;
-    }
+      setTimeout(() => { // Delay by 100ms to ensure sessionStorage is properly read
+          // generate a random session id
+          sessionId = sessionStorage.getItem("session_id") || "session-" + Math.random().toString(36).substr(2, 9);
+          sessionStorage.setItem("session_id", sessionId);
 
-    const messageItem = document.createElement('li');
-    messageItem.classList.add('message', 'sent');
-    messageItem.innerHTML = `
-        <div class="message-text">
-            <div class="message-sender">
-                <b>You</b>
-            </div>
-            <div class="message-content">
-                ${message}
-            </div>
-        </div>`;
-    messagesList.appendChild(messageItem);
+          // Load conversation history
+          fetch('', { 
+            method: 'GET', 
+            headers: { 
+              'X-Requested-With': 'XMLHttpRequest', 
+              'Session-Id': sessionId  // Send session ID in the header
+            } 
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.conversation) {
+                  data.conversation.forEach(chat => appendMessage(chat.role, chat.content[0].text));
+              } else { return; }
+          })
+          .catch(error => console.error('Error loading conversation:', error));
+      }, 100);
 
-    messageInput.value = '';
-
-    fetch('', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Session-Id': sessionId  // Send session ID in the header
-      },
-      body: new URLSearchParams({
-        'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-        'message': message
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        const response = data.response;
-        const messageItem = document.createElement('li');
-        messageItem.classList.add('message', 'received');
-        messageItem.innerHTML = `
-        <div class="message-text">
-            <div class="message-sender">
-              <b>AI Chatbot</b>
-            </div>
-            <div class="message-content">
-                ${response}
-            </div>
-        </div>
-          `;
-        messagesList.appendChild(messageItem);
+      messageForm.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const message = messageInput.value.trim();
+          if (message.length === 0) return;
+    
+          appendMessage("user", message);
+          
+          messageInput.value = '';
+    
+          fetch('', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Session-Id': sessionId
+              },
+              body: new URLSearchParams({
+                  'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                  'message': message
+              })
+          })
+          .then(response => response.json())
+          .then(data => appendMessage("assistant", data.response))
+          .catch(error => console.error('Error sending message:', error));
       });
   });
-</script>
 
+  
+</script>
 {% endblock %}

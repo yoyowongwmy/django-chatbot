@@ -71,5 +71,10 @@ def chatbot(request):
         chat_session.save()
 
         return JsonResponse({"message": message, "response": response})
-    return render(request, "chatbot.html", {"chats": chat_session.conversation})
+    
+        # Detect AJAX request
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        return JsonResponse({"conversation": chat_session.conversation})
+    
+    return render(request, "chatbot.html")
 
