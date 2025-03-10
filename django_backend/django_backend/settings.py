@@ -58,10 +58,10 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_HEADERS = [
-    'content-type',
-    'session-id',  # Allow the custom header 'Session-Id'
-    'x-requested-with',
-    'authorization',
+    "content-type",
+    "session-id",  # Allow the custom header 'Session-Id'
+    "x-requested-with",
+    "authorization",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
