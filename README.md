@@ -36,7 +36,8 @@ python django_backend/manage.py migrate
 6. Open http://localhost:8000/ to test the application
 
 ## Future Enhancement
-1. use Django + React to separate the concerns of frontend and backend
-2. Implement Login feature to store conversation based on user id, so that user can track their own conversations
-3. Implement Assistant and Thread feature with openai for each user, so that they can manage multiple conversations
-4. Store OPENAI_API_KEY in Github Secrets for better security
+1. Use Django + React to separate the concerns of frontend and backend
+2. Use rest framework to expose API for scalability if more functions are required. 
+3. Implement Login feature to store conversation based on user id, so that user can track their own conversations
+4. Implement Assistant and Thread feature with openai for each user, so that they can manage multiple conversations
+5. Store OPENAI_API_KEY in Github Secrets for better security
