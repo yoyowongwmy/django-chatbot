@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 
 export default function ChatWindow() {
   const [messages, setMessages] = useState([]);
@@ -29,7 +29,10 @@ export default function ChatWindow() {
           setMessages(response.data.conversation.map(chat => ({ role: chat.role, text: chat.content[0].text })));
         }
       })
-      .catch((error) => console.error("Error loading conversation:", error));
+      .catch((error) => {
+      alert("Error loading conversation:" + error.status);
+        console.error("Error loading conversation:", error);
+      });
   }, []);
 
   const sendMessage = () => {
@@ -46,7 +49,10 @@ export default function ChatWindow() {
         setMessages(response.data.conversation.map(chat => ({ role: chat.role, text: chat.content[0].text })));
       }
     })
-    .catch((error) => console.error("Error loading conversation:", error));
+    .catch((error) => {
+      alert("Error loading conversation:" + error.status);
+      console.error("Error loading conversation:", error);
+    });
   };
 
   return (
@@ -59,7 +65,6 @@ export default function ChatWindow() {
               <div className="message-content">Hello! How can I assist you today?</div>
             </div>
           </li>
-
           {messages.map((msg, index) => (
             <li
               key={index}
