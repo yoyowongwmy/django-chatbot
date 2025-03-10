@@ -1,0 +1,106 @@
+/* General styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Chat container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Card holding messages */
+.card {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Message list */
+.messages-list {
+  list-style-type: none;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.message-text {
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: left; 
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  text-align: left; 
+}
+
+.message-content {
+  font-size: 1rem;
+  color: #333;
+  text-align: left; 
+}
+
+/* Message styling based on role */
+.sent {
+  background-color: #e0f7e0;
+  margin-left: auto;
+}
+
+.received {
+  background-color: #f0f0f0;
+  margin-right: auto;
+}
+
+/* Form for sending messages */
+.message-form {
+  display: flex;
+  background-color: #e0e0e0;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.message-input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px 0 0 8px;
+  font-size: 1rem;
+}
+
+.btn-send {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-send:hover {
+  background-color: #0056b3;
+}

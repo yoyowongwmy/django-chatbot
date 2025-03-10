@@ -55,6 +55,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",  # Allow your frontend to access the API (change to your frontend URL)
+    "http://localhost:3000"
 ]
 
 CORS_ALLOW_HEADERS = [
