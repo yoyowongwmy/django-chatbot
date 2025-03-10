@@ -42,6 +42,7 @@ python manage.py runserver
 ```
 # run command from root directory
 cd chatbot_frontend
+npm install
 npm run dev
 ```
 7. Open http://localhost:3000/ to test the application

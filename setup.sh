@@ -4,4 +4,5 @@ python manage.py runserver
 
 # run frontend from root directory
 cd chatbot_frontend
+npm install
 npm run dev
