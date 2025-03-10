@@ -75,7 +75,9 @@ def chatbot(request):
         # Persist the updated session data
         chat_session.save()
 
-        return JsonResponse({"message": message, "response": markdown.markdown(response_text)})
+        return JsonResponse(
+            {"message": message, "response": markdown.markdown(response_text)}
+        )
 
         # Detect AJAX request
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
