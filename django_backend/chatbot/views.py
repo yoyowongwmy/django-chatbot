@@ -8,6 +8,8 @@ from openai import OpenAI
 
 from .models import ChatSession
 
+import markdown
+
 load_dotenv(override=True)
 openai_api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_api_key)
@@ -73,7 +75,7 @@ def chatbot(request):
         # Persist the updated session data
         chat_session.save()
 
-        return JsonResponse({"message": message, "response": response_text})
+        return JsonResponse({"message": message, "response": markdown.markdown(response_text)})
 
         # Detect AJAX request
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
